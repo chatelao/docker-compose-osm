@@ -1,0 +1,27 @@
+version: '2'
+services:
+  postgres-osm:
+    build:
+      context: ./docker-postgres-osm
+    ports:
+     - "5432:5432"
+  osm2pgsql:
+    build:
+      context: ./docker-osm2pgsql
+    volumes:
+      - /vagrant/osm_import:/osm
+  renderd-osm:
+    build:
+      context: ./docker-renderd-osm
+    ports:
+      - "8001:8080"
+    links:
+      - postgres-osm
+    volumes:
+      - /vagrant/osm_style:/osm_style
+  nominatim:
+    build:
+      context: ./docker-nominatim
+    ports:
+      - "8002:8080"
+  
