@@ -1,27 +1,51 @@
 version: '2'
 services:
+  ui-for-docker:
+    image: uifd/ui-for-docker
+    ports:
+     - "8085:9000"
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
   postgres-osm:
+    image: chatelao/docker-postgres-osm
     build:
       context: ./docker-postgres-osm
     ports:
      - "5432:5432"
   osm2pgsql:
+    image: chatelao/docker-osm2pgsql
     build:
       context: ./docker-osm2pgsql
     volumes:
       - /vagrant/osm_import:/osm
   renderd-osm:
+    image: chatelao/docker-renderd-osm
     build:
       context: ./docker-renderd-osm
     ports:
-      - "8001:8080"
+      - "8080:80"
     links:
-      - postgres-osm
+      - postgres-osm:pg
     volumes:
-      - /vagrant/osm_style:/osm_style
-  nominatim:
+      - /vagrant/osm_style:/usr/share/mapnik/osm-custom
+  phppgadmin:
+    image: chatelao/phppgadmin
     build:
-      context: ./docker-nominatim
+      context: ./docker-phppgadmin2
     ports:
-      - "8002:8080"
-  
+      - "8089:80"
+    links:
+      - postgres-osm:render-db
+#  website-osm:
+#    image: chatelao/docker-website-osm
+#    build:
+#      context: ./docker-website-osm
+#    ports:
+#      - "8081:80"
+#  nominatim:
+#    image: chatelao/docker-nominatim
+#    build:
+#      context: ./docker-nominatim
+#    ports:
+#      - "8082:8080"
