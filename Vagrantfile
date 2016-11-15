@@ -38,8 +38,8 @@ Vagrant.configure("2") do |config|
   # config.vm.network "public_network"
 
   # Share an additional folder to the guest VM. The first argument is
-  config.vm.synced_folder "./osm_mapdata",  "/vagrant_data/osm_mapdata"
-  config.vm.synced_folder "./osm_mapstyle", "/vagrant_data/osm_mapstyle"
+  # config.vm.synced_folder "./osm_import",  "/vagrant_data/osm_mapdata"
+  # config.vm.synced_folder "./osm_mapstyle", "/vagrant_data/osm_mapstyle"
 
   # Provider-specific configuration, example for VirtualBox:
   config.vm.provider "virtualbox" do |vb|

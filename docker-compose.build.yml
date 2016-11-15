@@ -2,22 +2,50 @@ version: '2'
 services:
   postgres-osm:
     image: chatelao/docker-postgres-osm:9.6
+#    build:
+#      context: ./docker-postgres-osm
     ports:
      - "5432:5432"
   renderd-otm:
     image: chatelao/docker-renderd-otm
+#    build: ./docker-renderd-otm
     ports: 
       - "8080:80"
-    links:
-      - postgres-osm:pg
   osm2pgsql:
     image: chatelao/docker-osm2pgsql
+#    build:
+#      context: ./docker-osm2pgsql
     volumes:
       - /vagrant/osm_import:/osm
+#      - /vagrant/otm_hillshades:/osm/hills
     links:
       - postgres-osm:pg
     depends_on:
       - renderd-otm
+  phppgadmin:
+    image: chatelao/docker-phppgadmin
+#    build:
+#      context: ./docker-phppgadmin2
+    ports:
+      - "8089:80"
+    links:
+      - postgres-osm:pg
+  ui-for-docker:
+    image: uifd/ui-for-docker
+    ports:
+     - "8099:9000"
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  docker-compose-ui:
+    restart: always
+    image: francescou/docker-compose-ui:0.21.0
+    container_name: docker_compose_ui
+    hostname: docker_compose_ui
+    ports:
+     - "8095:5000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 #  nominatim:
 #    image: chatelao/docker-nominatim
 #    build:
