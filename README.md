@@ -43,8 +43,8 @@ osm2pgsql --create --slim --cache 2000 --database gis --username osm --host pg -
 ```
 
 ### And get your tiles from your own server!
-- We are the world: http://localhost:8080/0/0/0.png
-- We are the childern: http://localhost:8080/13/2088/3691.png
+- We are the world: http://localhost:8080/osm/0/0/0.png
+- We are the childern: http://localhost:8080/osm/13/2088/3691.png
 
 ### To know more about your server:
 - Access the database: http://localhost:8089/phppgadmin (User: gis, Pass: osm)
